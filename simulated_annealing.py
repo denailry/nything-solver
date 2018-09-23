@@ -1,7 +1,6 @@
 from input_helper import random_board
-
-def init_state():
-    return None
+import random
+import math
 
 def temperature(step):
     return step
@@ -16,7 +15,7 @@ def get_entropy(current_state, new_state):
     return fitness_function(current_state) - fitness_function(new_state)
 
 def is_accept(entropy, temperature):
-    return None
+    return math.exp(entropy/temperature) > random.uniform(0.0, 1.0)
 
 def simulated_annealing(init_state, limit_step):
     current_state = init_state
