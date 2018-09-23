@@ -4,9 +4,10 @@ print('file input: ', end="")
 file_name = input()
 print()
 
-# input_helper.init_board(file_name)
-# input_helper.display_board()
+input_helper.init_board(file_name)
+input_helper.display_board()
 
+print()
 print('choose algorithm: ')
 print('1. Hill Climbing')
 print('2. Simulated Annealing')
