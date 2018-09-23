@@ -4,7 +4,7 @@ from random import randint
 pieces = []
 
 # current board state
-board = [['' for j in range(8)] for i in range(8)]
+board = [['' for i in range(8)] for j in range(8)]
 
 str_white = "WHITE"
 str_black = "BLACK"
@@ -30,7 +30,10 @@ def randomPos():
 # Initialize board - place/fill board randomly
 def init_board(file_name):
     read_file(file_name)
+    random_board(board)
+    
 
+def random_board(board):
     for elm in pieces:
         valid = False
         while not valid:
@@ -41,7 +44,7 @@ def init_board(file_name):
 
 
 # Printing board to screen
-def display_board():
+def display_board(board):
     for row in board:
         for col in row:
             if (col == ''):
