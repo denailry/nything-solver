@@ -229,7 +229,7 @@ def numConflicting(board, eval_x, eval_y):
                     incrementNum(num,type,board[j][i])
                 else:
                     i -= 1
-                    j -= 1
+                    j += 1
 
             # Check the left
             i = eval_x - 1
