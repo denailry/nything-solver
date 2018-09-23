@@ -14,6 +14,7 @@ class Piece:
 
 #is the numConflicting1 better than numConflicting2
 def isBetter(numConflicting1, numConflicting2):
+    #minimum ally-attacking is prioritized
     if(numConflicting1[0] < numConflicting2[0]):
         return True
     elif(numConflicting1[1] > numConflicting2[0]):
@@ -35,6 +36,7 @@ def convertListOfPieceToMatrix(listOfPiece):
         board[piece.posisiX][piece.posisiY] = piece.jenis
     return board
 
+#initialize the population with random pieces
 def initPopulation(totalPopulation, pieces):
     population = []
     for j in range(totalPopulation):
@@ -51,12 +53,17 @@ def initPopulation(totalPopulation, pieces):
         population.append(convertMatrixToListOfPiece(board))
     return population
 
+#get jenis of piece for sorting
 def getJenis(piece):
     return piece.jenis
 
+#get best configuration in population
 def getBestFit(population):
+    #initialize the best fit
     bestFitParent = population[0]
     bestFitConflicting = evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestFitParent))
+    
+    #searching for the best fit configuration in population
     for pieceList in population:
         numConflicting = evaluator.boardNumConflicting(convertListOfPieceToMatrix(pieceList))
         if(isBetter(numConflicting,bestFitConflicting)):
@@ -96,6 +103,7 @@ def crossover(population):
         child[i] = secondBestFitParent[i]
     population.append(child)
 
+#remove the worst performing configuration in population
 def removeWorstConfiguration(population):
     worstConfiguration = population[0]
     worstConfigurationConflicting = evaluator.boardNumConflicting(convertListOfPieceToMatrix(worstConfiguration))
@@ -106,9 +114,10 @@ def removeWorstConfiguration(population):
             worstConfigurationConflicting = listOfPieceConflicting
     population.remove(worstConfiguration)
 
-
+#randomly change one piece place
 def mutation(listOfPiece):
     matrix = convertListOfPieceToMatrix(listOfPiece)
+    
     #find a piece to move its position
     foundPiece = False
     piecePos = (0,0)
