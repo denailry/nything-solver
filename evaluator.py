@@ -5,11 +5,12 @@ def countConflicts(board):
 
 '''
 
-# Given num, that is [x,y] , where :
-#   x is the number of conflicting pieces with the same color
-#   y is the number of conflicting pieces with different color
-# , eval_type and target_type is the type of new pieces that conflicted, increment the correct element
-# of num based of eval_type & target_type color (which is represented by them being written lowercase/uppercase)
+# Given :
+#   num, that is [x,y] , where :
+#       x is the number of conflicting pieces with the same color
+#       y is the number of conflicting pieces with different color
+#   eval_type and target_type : type of new pieces that conflicted,
+# increment the correct element of num based of eval_type & target_type color (which is represented by them being written lowercase/uppercase)
 def incrementNum(num, eval_type, target_type):
     if eval_type.islower():
         if target_type.islower():
@@ -32,6 +33,7 @@ def incrementNum(num, eval_type, target_type):
 def numConflicting(board, eval_x, eval_y):
     num = [0,0]
     type = ''
+    # If no piece in (eval_x, eval_y)
     if (board[eval_y][eval_x] == ''):
         num = [-1,-1]
     else:
