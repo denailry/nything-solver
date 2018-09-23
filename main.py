@@ -4,8 +4,13 @@ print('file input: ', end="")
 file_name = input()
 print()
 
+<<<<<<< HEAD
 input_helper.init_board(file_name)
 input_helper.display_board()
+=======
+# input_helper.init_board(file_name)
+# input_helper.display_board()
+>>>>>>> 95053ef896eb9adefbaab7006af9f74b2a2f4f06
 
 print('choose algorithm: ')
 print('1. Hill Climbing')
