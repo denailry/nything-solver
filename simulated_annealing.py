@@ -1,11 +1,13 @@
+# from input_helper import 
+
 def init_state():
     return None
 
 def temperature(step):
-    return None
+    return step
 
 def get_random_state():
-    return None
+    
 
 def get_entropy(current_state, new_state):
     return None
