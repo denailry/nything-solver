@@ -25,7 +25,7 @@ def simulated_annealing(init_state, limit_step):
 
             if (entropy > 0):
                 current_state = new_state
-            else if is_accept(entropy, temp):
+            elif is_accept(entropy, temp):
                 current_state = new_state
 
     return current_state
