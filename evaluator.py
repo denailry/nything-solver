@@ -272,3 +272,13 @@ def numConflicting(board, eval_x, eval_y):
                     i += 1
 
     return num
+
+def boardNumConflicting(board):
+    num = [0,0]
+    for j in range(8):
+        for i in range(8):
+            if (board[j][i] != ''):
+                tempNum = numConflicting(board,i,j)
+                num[0] += tempNum[0]
+                num[1] += tempNum[1]
+    return num
