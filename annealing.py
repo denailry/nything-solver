@@ -5,7 +5,7 @@ pieces = ['K','B','R','Q','k','b','r','q']
 
 # randomPos : return tuple (x,y) , where x and y is random
 def randomPos():
-    return (randint(0,7),randint(0,7));
+    return (randint(0,7),randint(0,7))
 
 '''
 # Given board, calculate how many board pieces are conflicting
