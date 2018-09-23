@@ -1,5 +1,5 @@
 import random
-import annealing
+import input_helper
 
 pieces = ['K','B','R','Q','k','b','r','q']
 listOfPiece = []
@@ -35,13 +35,42 @@ def initPopulation(totalPopulation, pieces):
         for elm in pieces:
             valid = False
             while not valid:
-                pos = annealing.randomPos()
+                pos = input_helper.randomPos()
                 print('bisa')
                 if (board[pos[1]][pos[0]] == ''):
                     board[pos[1]][pos[0]] = elm
                     valid = True
-
     return population
+
+def crossover(population):
+    #find 2 best fit parent
+    child = bestFitParent
+
+
+def mutation(listOfPiece):
+    matrix = convertListOfPieceToMatrix(listOfPiece)
+
+    #find a piece to move its position
+    foundPiece = False
+    piecePos = (0,0)
+    while(not(foundPiece)):
+        piecePos = input_helper.randomPos()
+        if(matrix[piecePos[0]][piecePos[1]])!='':
+            foundPiece = True
+
+    #find a piece as a destination
+    foundDestination = False
+    destinationPos = (0,0)
+    while(not(foundDestination)):
+        destinationPos = input_helper.randomPos()
+        if(matrix[destinationPos[0]][destinationPos[1]])=='':
+            foundDestination = False
+
+    matrix[destinationPos[0]][destinationPos[1]] = matrix[piecePos[0]][piecePos[1]]
+    matrix[piecePos[0]][piecePos[1]] = ''
+
+    listOfPiece = convertMatrixToListOfPiece(matrix)
+
 
 
 
