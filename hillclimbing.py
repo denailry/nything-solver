@@ -61,10 +61,12 @@ def hillclimb(board, wandering_steps = 20):
     boredom_threshold = wandering_steps
     while True:
         hasmoved = False
+        pieceBestMoves = []
         prevScore = normalizeScoring(ev.boardNumConflicting(board))
         pieceScores = findPieceScores(board)
         for piece in pieceScores:
             bestMoves = findBestMove(board, piece['pos'][0], piece['pos'][1])
+            pieceBestMoves.append([piece, bestMoves])
             move = random.choice(bestMoves)
             if prevScore > move['scr']:
                 #print(prevScore, move['scr'])
@@ -75,11 +77,16 @@ def hillclimb(board, wandering_steps = 20):
         if not hasmoved:
             boredom_threshold -= 1
             #print(boredom_threshold)
-            if boredom_threshold <= 0:
+            if boredom_threshold < 0:
                 break
             else:    
-                piece = random.choice(pieceScores)
-                move = random.choice(findBestMove(board, piece['pos'][0], piece['pos'][1]))
-                movePiece(board, piece['pos'], move['pos'])
+                possiblePlateau = [x for x in pieceBestMoves if len(x[1]) > 1]
+                #print(possiblePlateau)
+                if possiblePlateau:
+                    piece, bestMoves = random.choice(possiblePlateau)
+                    move = random.choice(bestMoves)
+                    movePiece(board, piece['pos'], move['pos'])
+                else:
+                    break
         else:
             boredom_threshold = wandering_steps
