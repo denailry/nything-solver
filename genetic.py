@@ -2,10 +2,11 @@ import random
 import input_helper
 import evaluator
 
-pieces = ['K','B','R','Q','k','b','r','q']
+
 listOfPiece = []
 population = []
 
+#a piece in the chess, contains it's category and position
 class Piece:
     def __init__(self, jenis, posisiX, posisiY):
         self.jenis = jenis #Q,K,B,R,q,k,b,r
@@ -21,6 +22,7 @@ def isBetter(numConflicting1, numConflicting2):
         return True
     return False
 
+#convert matrix to list of piece
 def convertMatrixToListOfPiece(matrix):
     listOfPiece = []
     for i in range(8):
@@ -30,13 +32,13 @@ def convertMatrixToListOfPiece(matrix):
 
     return listOfPiece
 
+#convert list of piece to matrix
 def convertListOfPieceToMatrix(listOfPiece):
     board = [[] for i in range(8)]
     for i in range(8):
         board[i] = ['' for i in range(8)]
     for (piece) in listOfPiece:
         board[piece.posisiX][piece.posisiY] = piece.jenis
-
     return board
 
 #initialize the population with random pieces
@@ -74,43 +76,50 @@ def getBestFit(population):
             bestFitConflicting = numConflicting
     return bestFitParent
 
+#add child to population that inherits it's parents genes
 def crossover(population):
-    #find 2 best fit parent
-    #population can't be less than 2
 
-    #initialize the best and second best fit parent
-    bestFitParent = population[0]
-    bestFitConflicting = evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestFitParent)) 
-    secondBestFitParent = population[0]
-    secondBestFitConflicting = evaluator.boardNumConflicting(convertListOfPieceToMatrix(secondBestFitParent))
+    #using russian roulette method
+    weight = []
+    #get probability for each configuration
+    for configuration in population:
+        conflictNumber = evaluator.boardNumConflicting(convertListOfPieceToMatrix(configuration))
+        #prevent division by zero
+        if conflictNumber[0]==0:
+            weight.append(2)
+        else:
+            weight.append(1/conflictNumber[0])
 
-    #find the best fit and second best fit parent
-    for pieceList in population:
-        numConflicting = evaluator.boardNumConflicting(convertListOfPieceToMatrix(pieceList))
-        if(isBetter(numConflicting, bestFitConflicting)):
-            bestFitParent = pieceList
-            bestFitConflicting = numConflicting
-        elif(isBetter(numConflicting, secondBestFitConflicting)):
-            secondBestFitParent = pieceList
-            secondBestFitConflicting = numConflicting
+    #use random with probability to choose parent
+    parent1 = random.choices(population, weight)[0]
+    parent2 = random.choices(population, weight)[0]
+    while parent1 == parent2:
+        parent2 = random.choices(population, weight)[0]
 
     #choose the crossover point
-    crossoverBeginPoint = random.randint(0,len(bestFitParent)-1)
-    print("crossoverBeginPoint")
-    print(len(listOfPiece))
-    crossoverEndingPoint = random.randint(crossoverBeginPoint,len(bestFitParent)-1)
+    #use two-point crossover
+    crossoverBeginPoint = random.randint(0,len(parent1)-1)
+    crossoverEndingPoint = random.randint(0,len(parent1)-1)
     
+    #begining point must be more than it's ending point
+    if crossoverBeginPoint > crossoverEndingPoint:
+        temp = crossoverBeginPoint
+        crossoverBeginPoint = crossoverEndingPoint
+        crossoverEndingPoint = temp
+
     #make child that inherit both parents genes
-    child = convertMatrixToListOfPiece(convertListOfPieceToMatrix(bestFitParent))
+    child = convertMatrixToListOfPiece(convertListOfPieceToMatrix(parent1))
     child.sort(key=getJenis)
-    secondBestFitParent.sort(key=getJenis)
+    parent2.sort(key=getJenis)
+
+    #mix genes from parent1 and parent2
+    childMatrix = convertListOfPieceToMatrix(child)
     for i in range(crossoverBeginPoint, crossoverEndingPoint):
         #check whether the position has occupied
+        if(childMatrix[parent2[i].posisiX][parent2[i].posisiY] == ''):
+            child[i] = parent2[i]
         childMatrix = convertListOfPieceToMatrix(child)
-        if(childMatrix[secondBestFitParent[i].posisiX][secondBestFitParent[i].posisiY] == ''):
-            child[i] = secondBestFitParent[i]
     population.append(child)
-    #print()
 
 #remove the worst performing configuration in population
 def removeWorstConfiguration(population):
@@ -126,7 +135,7 @@ def removeWorstConfiguration(population):
 #randomly change one piece place
 def mutation(listOfPiece):
     matrix = convertListOfPieceToMatrix(listOfPiece)
-    
+
     #find a piece to move its position
     foundPiece = False
     piecePos = (0,0)
@@ -148,25 +157,26 @@ def mutation(listOfPiece):
     matrix[piecePos[0]][piecePos[1]] = ''
 
     listOfPiece = convertMatrixToListOfPiece(matrix)
+    
 
-
-
+"""
 #Program Test
-population = initPopulation(5, ['K','B','R','Q','k','b','r','q'])
-for x in range(0,10):
+totalPopulation = 25
+population = initPopulation(totalPopulation, ['K','B','R','Q','k','b','r','q'])
+for x in range(0,100):
     crossover(population)
     removeWorstConfiguration(population)
-    if(random.randint(1,100) % 3 == 0):
-        #print("mutate !")
-        mutation(population[random.randint(0,4)])   
+    for x in range (1, totalPopulation):
+        if(random.randint(1,100) % 3 == 0):
+            mutation(population[x])
     bestSolution = getBestFit(population)
-    for y in range(5):
+    for y in range(totalPopulation):
         input_helper.display_board(convertListOfPieceToMatrix(population[y])) 
         print()
     print("different iteration")
-    #input_helper.display_board(convertListOfPieceToMatrix(bestSolution))
+    input_helper.display_board(convertListOfPieceToMatrix(bestSolution))
     bestSolutionConflicts = evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestSolution))
-    #print(bestSolutionConflicts[0],bestSolutionConflicts[1])
+    print(bestSolutionConflicts[0],bestSolutionConflicts[1])
     #print()
-
+"""
 
