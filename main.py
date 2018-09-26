@@ -31,7 +31,7 @@ if selected_algo == 1:
     input_helper.display_board(input_helper.board)
 elif selected_algo == 2:
     # input_helper.board = sa.get_random_next_state(input_helper.board)
-    sa.simulated_annealing(input_helper.board, 100000)
+    input_helper.board = sa.simulated_annealing(input_helper.board)
     input_helper.display_board(input_helper.board)
 
 
