@@ -11,7 +11,7 @@ str_black = "BLACK"
 
 def read_file(file_name):
     data_file = open(file_name, 'r')
-    
+
     for row in data_file:
         arr_row = row.split()
         if (arr_row[0] == str_white):
@@ -31,7 +31,7 @@ def randomPos():
 def init_board(file_name):
     read_file(file_name)
     random_board(board)
-    
+
 
 def random_board(board):
     for elm in pieces:
@@ -46,9 +46,11 @@ def random_board(board):
 # Printing board to screen
 def display_board(board):
     for row in board:
+        print('|',end='')
         for col in row:
             if (col == ''):
                 print('.',end='')
             else:
                 print(col,end='')
+            print('|',end='')
         print()
