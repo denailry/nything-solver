@@ -31,7 +31,7 @@ def findBestMove(board, toBeMoved_x, toBeMoved_y):
         for j in range(8):
             if board[i][j] == empty_tile:
                 board[i][j] = toBeMoved
-                score = ev.numConflicting(board, j, i)
+                score = ev.boardNumConflicting(board)
                 score[1] = 64 - score[1]
                 newScores.append({'pos':[i,j], 'scr':score})
                 if score < bestScore:
@@ -45,10 +45,13 @@ def findBestMove(board, toBeMoved_x, toBeMoved_y):
     return bestMoves
 
 def movePiece(board, origin, dest):
-    board[dest[0]][dest[1]] = board[origin[0]][origin[1]]
-    board[origin[0]][origin[1]] = empty_tile
+    #print('move ', board[origin[0]][origin[1]], 'from', origin, 'to', dest)
+    if origin != dest:
+        board[dest[0]][dest[1]] = board[origin[0]][origin[1]]
+        board[origin[0]][origin[1]] = empty_tile
+        
 
-def hillclimb(board, wandering_steps = 50):
+def hillclimb(board, wandering_steps = 5):
     # hillclimbing algorithm with wandering steps to avoid getting stuck on a plateau
     boredom_threshold = wandering_steps
     while True:
@@ -58,14 +61,15 @@ def hillclimb(board, wandering_steps = 50):
         for piece in pieceScores:
             bestMoves = findBestMove(board, piece['pos'][0], piece['pos'][1])
             move = random.choice(bestMoves)
-            if piece['scr'] > move['scr']:
+            if prevScore > move['scr']:
                 movePiece(board, piece['pos'], move['pos'])
                 hasmoved = True
                 break
 
         if not hasmoved:
             boredom_threshold -= 1
-            if boredom_threshold == 0:
+            print(boredom_threshold)
+            if boredom_threshold <= 0:
                 break
             else:    
                 piece = random.choice(pieceScores)
