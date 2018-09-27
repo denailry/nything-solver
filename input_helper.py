@@ -5,6 +5,7 @@ pieces = []
 
 # current board state
 board = [['' for i in range(8)] for j in range(8)]
+is_board_empty = True
 
 str_white = "WHITE"
 str_black = "BLACK"
@@ -29,9 +30,13 @@ def randomPos():
 
 # Initialize board - place/fill board randomly
 def init_board(file_name):
+    global is_board_empty
     read_file(file_name)
-    random_board(board)
-
+    if (len(pieces) > 64):
+        print("Number of pieces exceed board capacity!")
+    else:
+        random_board(board)
+        is_board_empty = False
 
 def random_board(board):
     for elm in pieces:
@@ -41,7 +46,6 @@ def random_board(board):
             if (board[pos[1]][pos[0]] == ''):
                 board[pos[1]][pos[0]] = elm
                 valid = True
-
 
 # Printing board to screen
 def display_board(board):
