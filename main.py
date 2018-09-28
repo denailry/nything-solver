@@ -2,6 +2,7 @@ import input_helper
 import evaluator as eva
 import hillclimbing as hc
 import simulated_annealing as sa
+import genetic as gen
 
 print('file input: ', end="")
 file_name = input()
@@ -31,6 +32,8 @@ if not input_helper.is_board_empty:
     elif selected_algo == 2:
         # input_helper.board = sa.get_random_next_state(input_helper.board)
         input_helper.board = sa.simulated_annealing(input_helper.board,15000,3.5)
+    elif selected_algo == 3:
+        gen.geneticAlgorithm(input_helper.board)
 
     input_helper.display_board(input_helper.board)
     print(eva.boardNumConflicting(input_helper.board))

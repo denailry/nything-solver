@@ -159,24 +159,29 @@ def mutation(listOfPiece):
     listOfPiece = convertMatrixToListOfPiece(matrix)
     
 
-"""
-#Program Test
-totalPopulation = 25
-population = initPopulation(totalPopulation, ['K','B','R','Q','k','b','r','q'])
-for x in range(0,100):
-    crossover(population)
-    removeWorstConfiguration(population)
-    for x in range (1, totalPopulation):
-        if(random.randint(1,100) % 3 == 0):
-            mutation(population[x])
-    bestSolution = getBestFit(population)
-    for y in range(totalPopulation):
-        input_helper.display_board(convertListOfPieceToMatrix(population[y])) 
-        print()
-    print("different iteration")
-    input_helper.display_board(convertListOfPieceToMatrix(bestSolution))
-    bestSolutionConflicts = evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestSolution))
+def geneticAlgorithm(board):
+    #Program Test
+    totalPopulation = 50
+    
+    #tolong cek di bawah ini kenapa kalo boardnya dari input dari input_helper.board kenapa gabisa
+    #population = initPopulation(totalPopulation, board)
+    population = initPopulation(totalPopulation, ['K','K','K','B','R','Q','k','b','r','q'])
+    bestSolutionOverall = population[0]
+    for x in range(0,1000):
+        crossover(population)
+        removeWorstConfiguration(population)
+        for x in range (0, totalPopulation):
+            if(random.randint(1,100) % 7 == 0):
+                mutation(population[x])
+        bestSolution = getBestFit(population)
+        if(isBetter(evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestSolution)), evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestSolutionOverall)))):
+            bestSolutionOverall = bestSolution
+        """
+        for y in range(totalPopulation):
+            input_helper.display_board(convertListOfPieceToMatrix(population[y])) 
+            print()
+        """
+    input_helper.display_board(convertListOfPieceToMatrix(bestSolutionOverall))
+    bestSolutionConflicts = evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestSolutionOverall))
     print(bestSolutionConflicts[0],bestSolutionConflicts[1])
-    #print()
-"""
-
+        #print()
