@@ -67,7 +67,7 @@ def getBestFit(population):
     #initialize the best fit
     bestFitParent = population[0]
     bestFitConflicting = evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestFitParent))
-    
+
     #searching for the best fit configuration in population
     for pieceList in population:
         numConflicting = evaluator.boardNumConflicting(convertListOfPieceToMatrix(pieceList))
@@ -100,7 +100,7 @@ def crossover(population):
     #use two-point crossover
     crossoverBeginPoint = random.randint(0,len(parent1)-1)
     crossoverEndingPoint = random.randint(0,len(parent1)-1)
-    
+
     #begining point must be more than it's ending point
     if crossoverBeginPoint > crossoverEndingPoint:
         temp = crossoverBeginPoint
@@ -157,15 +157,15 @@ def mutation(listOfPiece):
     matrix[piecePos[0]][piecePos[1]] = ''
 
     listOfPiece = convertMatrixToListOfPiece(matrix)
-    
 
-def geneticAlgorithm(board):
+
+def geneticAlgorithm(chessPieces):
     #Program Test
     totalPopulation = 50
-    
+
     #tolong cek di bawah ini kenapa kalo boardnya dari input dari input_helper.board kenapa gabisa
     #population = initPopulation(totalPopulation, board)
-    population = initPopulation(totalPopulation, ['K','K','K','B','R','Q','k','b','r','q'])
+    population = initPopulation(totalPopulation, chessPieces)
     bestSolutionOverall = population[0]
     for x in range(0,1000):
         crossover(population)
@@ -178,10 +178,12 @@ def geneticAlgorithm(board):
             bestSolutionOverall = bestSolution
         """
         for y in range(totalPopulation):
-            input_helper.display_board(convertListOfPieceToMatrix(population[y])) 
+            input_helper.display_board(convertListOfPieceToMatrix(population[y]))
             print()
         """
-    input_helper.display_board(convertListOfPieceToMatrix(bestSolutionOverall))
+    return convertListOfPieceToMatrix(bestSolutionOverall)
+    """
+    input_helper.display_board()
     bestSolutionConflicts = evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestSolutionOverall))
     print(bestSolutionConflicts[0],bestSolutionConflicts[1])
-        #print()
+"""
