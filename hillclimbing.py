@@ -58,7 +58,10 @@ def movePiece(board, origin, dest):
 def hillclimb(board, wandering_steps = 20):
     # hillclimbing algorithm with wandering steps to avoid getting stuck on a plateau
     boredom_threshold = wandering_steps
+    steps = 0
     while True:
+        steps += 1 
+        print('\rClimbing the hill', '.'*(steps // 10 % 5 + 1), end='')
         hasmoved = False
         pieceBestMoves = []
         prevScore = normalizeScoring(ev.boardNumConflicting(board))
@@ -82,6 +85,8 @@ def hillclimb(board, wandering_steps = 20):
                 # find moves that doesn't change the score
                 possiblePlateau = [x for x in pieceBestMoves if len(x[1]) > 1] 
                 if possiblePlateau:
+                    if boredom_threshold == wandering_steps-1:
+                        print('\nEncountered a plateau, taking at most {} wandering steps'.format(wandering_steps))
                     piece, bestMoves = random.choice(possiblePlateau)
                     move = random.choice(bestMoves)
                     movePiece(board, piece['pos'], move['pos'])
@@ -89,3 +94,5 @@ def hillclimb(board, wandering_steps = 20):
                     break
         else:
             boredom_threshold = wandering_steps
+
+    print('\nThis is the top of the hill')

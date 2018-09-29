@@ -18,7 +18,7 @@ def isBetter(numConflicting1, numConflicting2):
     #minimum ally-attacking is prioritized
     if(numConflicting1[0] < numConflicting2[0]):
         return True
-    elif(numConflicting1[1] > numConflicting2[1]):
+    elif(numConflicting1[0] == numConflicting2[0] and numConflicting1[1] > numConflicting2[1]):
         return True
     return False
 
@@ -167,7 +167,8 @@ def geneticAlgorithm(chessPieces):
     #population = initPopulation(totalPopulation, board)
     population = initPopulation(totalPopulation, chessPieces)
     bestSolutionOverall = population[0]
-    for x in range(0,1000):
+    for x in range(0,2000):
+        print('\rGeneration number {}, record best: {}'.format(x, evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestSolutionOverall))), end='')
         crossover(population)
         removeWorstConfiguration(population)
         for x in range (0, totalPopulation):
@@ -176,11 +177,13 @@ def geneticAlgorithm(chessPieces):
         bestSolution = getBestFit(population)
         if(isBetter(evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestSolution)), evaluator.boardNumConflicting(convertListOfPieceToMatrix(bestSolutionOverall)))):
             bestSolutionOverall = bestSolution
+            print()
         """
         for y in range(totalPopulation):
             input_helper.display_board(convertListOfPieceToMatrix(population[y]))
             print()
         """
+    print()
     return convertListOfPieceToMatrix(bestSolutionOverall)
     """
     input_helper.display_board()

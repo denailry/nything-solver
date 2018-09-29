@@ -23,7 +23,7 @@ if not input_helper.is_board_empty:
     selected_algo = int(input())
 
     if selected_algo in range(1,4):
-        print('Loading...')
+        print('Initializing...')
     else:
         print('Algorithm not found')
 
