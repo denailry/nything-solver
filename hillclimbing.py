@@ -18,13 +18,13 @@ def findPieceScores(board): # the board is a matrix
         for j in range(8):
             if board[i][j] != empty_tile:
                 score = normalizeScoring(ev.numConflicting(board, j, i))
-                
                 pieceScores.append({'pos':[i,j], 'scr':score})
     pieceScores.sort(key=lambda piece: piece['scr'], reverse=True) # worst scoring piece first
     return pieceScores
 
 def findBestMove(board, toBeMoved_x, toBeMoved_y):
     # check the score for the toBeMoved piece in every empty tile and return the best scoring tiles 
+    # note that this may include the current piece position if there is no better scoring tile
     
     toBeMoved = board[toBeMoved_x][toBeMoved_y]
     board[toBeMoved_x][toBeMoved_y] = empty_tile
@@ -44,7 +44,6 @@ def findBestMove(board, toBeMoved_x, toBeMoved_y):
     board[toBeMoved_x][toBeMoved_y] = toBeMoved
     
     #return every position with the same score as best score
-    
     bestMoves = [x for x in newScores if x['scr'] == bestScore]
     
     return bestMoves
@@ -68,8 +67,8 @@ def hillclimb(board, wandering_steps = 20):
             bestMoves = findBestMove(board, piece['pos'][0], piece['pos'][1])
             pieceBestMoves.append([piece, bestMoves])
             move = random.choice(bestMoves)
-            if prevScore > move['scr']:
-                #print(prevScore, move['scr'])
+            if prevScore > move['scr']: 
+                #do the move since smaller score is better
                 movePiece(board, piece['pos'], move['pos'])
                 hasmoved = True
                 break
@@ -79,9 +78,9 @@ def hillclimb(board, wandering_steps = 20):
             #print(boredom_threshold)
             if boredom_threshold < 0:
                 break
-            else:    
-                possiblePlateau = [x for x in pieceBestMoves if len(x[1]) > 1]
-                #print(possiblePlateau)
+            else:
+                # find moves that doesn't change the score
+                possiblePlateau = [x for x in pieceBestMoves if len(x[1]) > 1] 
                 if possiblePlateau:
                     piece, bestMoves = random.choice(possiblePlateau)
                     move = random.choice(bestMoves)
