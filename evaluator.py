@@ -18,6 +18,7 @@ def incrementNum(num, eval_type, target_type):
         else:
             num[0] += 1
 
+# Evaluate Bishop - Check it's diagonals
 def evaluate_bishop(num, eval_x, eval_y, eval_type):
     # First diagonal
     i = eval_x + 1
@@ -67,6 +68,7 @@ def evaluate_bishop(num, eval_x, eval_y, eval_type):
             i -= 1
             j -= 1
 
+# Evaluate Knight - Check all 8 possible moves from a Knight
 def evaluate_knight(num, eval_x, eval_y, eval_type):
     i = eval_x + 2
     j = eval_y + 1
@@ -116,6 +118,7 @@ def evaluate_knight(num, eval_x, eval_y, eval_type):
         if (board[j][i] != ''):
             incrementNum(num,eval_type,board[j][i])
 
+# Evaluate Rook - check it's row and column
 def evaluate_rock(num, eval_x, eval_y, eval_type):
     # Check the left
     i = eval_x - 1
@@ -156,7 +159,8 @@ def evaluate_rock(num, eval_x, eval_y, eval_type):
             incrementNum(num,eval_type,board[i][eval_x])
         else:
             i += 1
-    
+
+# Evaluate Queen - check it's row, column, and diagonals
 def evaluate_queen(num, eval_x, eval_y, eval_type):
     # First diagonal
     i = eval_x + 1
@@ -265,16 +269,12 @@ def numConflicting(eval_x, eval_y, input_board=None):
     num = [0,0];
     eval_type = board[eval_y][eval_x];
 
-    # Bishop - Check it's diagonals
     if (eval_type == 'B') or (eval_type == 'b'):
         evaluate_bishop(num, eval_x, eval_y, eval_type);
-    # Knight - Check all 8 possible moves from a Knight
     elif (eval_type == 'K') or (eval_type == 'k'):
         evaluate_knight(num, eval_x, eval_y, eval_type);
-    # Rook - check it's row and column
     elif (eval_type == 'R') or (eval_type == 'r'):
         evaluate_rock(num, eval_x, eval_y, eval_type);
-    # Queen - check it's row, column, and diagonals
     else:
         evaluate_queen(num, eval_x, eval_y, eval_type);
 
