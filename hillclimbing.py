@@ -17,7 +17,7 @@ def findPieceScores(board): # the board is a matrix
     for i in range(8):
         for j in range(8):
             if board[i][j] != empty_tile:
-                score = normalizeScoring(ev.numConflicting(board, j, i))
+                score = normalizeScoring(ev.numConflicting(j, i, board))
                 pieceScores.append({'pos':[i,j], 'scr':score})
     pieceScores.sort(key=lambda piece: piece['scr'], reverse=True) # worst scoring piece first
     return pieceScores
