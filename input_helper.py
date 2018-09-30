@@ -31,7 +31,12 @@ def randomPos():
 # Initialize board - place/fill board randomly
 def init_board(file_name):
     global is_board_empty
-    read_file(file_name)
+    try:
+        read_file(file_name);
+    except FileNotFoundError:
+        print("Oopps... Cannot open the file.");
+        return;
+        
     if (len(pieces) > 64):
         print("Number of pieces exceed board capacity!")
     else:
