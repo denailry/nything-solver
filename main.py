@@ -4,9 +4,9 @@ import hill_climbing as hc
 import simulated_annealing as sa
 import genetic as gen
 
-ALGO_HILL_CLIMBING = 1;
-ALGO_SIMULATED_ANNEALING = 2;
-ALGO_GENETIC_ALGORITHM = 3;
+ALGO_HILL_CLIMBING = 1
+ALGO_SIMULATED_ANNEALING = 2
+ALGO_GENETIC_ALGORITHM = 3
 
 # Ask for configuration filename
 # and initialize board according to configuration file
@@ -23,14 +23,14 @@ def get_algorithm():
     print('2. Simulated Annealing')
     print('3. Genetic Algorithm')
 
-    algorithm = -1;
+    algorithm = -1
     while (algorithm not in range(1, 4)):
         print('Your choice: ', end='')
         algorithm = int(input())
         if algorithm not in range(1,4):
             print('What is that? I just know algorithm number 1, 2, and 3.')
     
-    return algorithm;
+    return algorithm
 
 # Solve the problem according to selected algorithm
 def solve(selected_algo):
@@ -39,7 +39,7 @@ def solve(selected_algo):
     elif selected_algo == ALGO_SIMULATED_ANNEALING:
         input_helper.board = sa.solve(input_helper.board,15000,3.5)
     elif selected_algo == ALGO_GENETIC_ALGORITHM:
-        input_helper.board = gen.geneticAlgorithm(input_helper.pieces)
+        input_helper.board = gen.solve(input_helper.pieces, 2000)
 
 # Displaying board and conflict number
 def display_state():
@@ -47,12 +47,12 @@ def display_state():
     print(eva.boardNumConflicting(input_helper.board))
 
 if __name__ == "__main__":
-    initialize_board();
-    print();
-    display_state();
+    initialize_board()
     print()
-    selected_algo = get_algorithm();
+    display_state()
     print()
-    solve(selected_algo);
+    selected_algo = get_algorithm()
     print()
-    display_state();
+    solve(selected_algo)
+    print()
+    display_state()
