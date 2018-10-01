@@ -1,6 +1,6 @@
 import random
-import input_helper
-import evaluator
+from utils import input_helper
+from utils import evaluator
 
 listOfPiece = []
 population = []

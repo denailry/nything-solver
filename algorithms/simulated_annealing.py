@@ -1,5 +1,5 @@
-from input_helper import display_board
-from evaluator import boardNumConflicting
+from utils.input_helper import display_board
+from utils.evaluator import boardNumConflicting
 from random import choice, uniform
 from copy import deepcopy
 import math

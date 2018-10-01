@@ -11,7 +11,10 @@ str_white = "WHITE"
 str_black = "BLACK"
 
 def read_file(file_name):
-    data_file = open(file_name, 'r')
+    try:
+        data_file = open(file_name, 'r')
+    except FileNotFoundError:
+        data_file = open('input/' + file_name, 'r')
 
     for row in data_file:
         arr_row = row.split()
@@ -32,10 +35,10 @@ def randomPos():
 def init_board(file_name):
     global is_board_empty
     try:
-        read_file(file_name);
+        read_file(file_name)
     except FileNotFoundError:
-        print("Oopps... Cannot open the file.");
-        return;
+        print("Oopps... Cannot open the file.")
+        return
         
     if (len(pieces) > 64):
         print("Number of pieces exceed board capacity!")

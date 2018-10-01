@@ -1,4 +1,4 @@
-import evaluator as ev
+import utils.evaluator as ev
 import random
 
 '''

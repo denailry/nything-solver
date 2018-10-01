@@ -1,8 +1,8 @@
-import input_helper
-import evaluator as eva
-import hill_climbing as hc
-import simulated_annealing as sa
-import genetic as gen
+from utils import input_helper
+import utils.evaluator as eva
+import algorithms.hill_climbing as hc
+import algorithms.simulated_annealing as sa
+import algorithms.genetic as gen
 
 ALGO_HILL_CLIMBING = 1
 ALGO_SIMULATED_ANNEALING = 2
