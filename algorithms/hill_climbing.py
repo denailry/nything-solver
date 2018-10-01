@@ -37,21 +37,23 @@ def find_best_move(board, toBeMoved_x, toBeMoved_y):
     toBeMoved = board[toBeMoved_x][toBeMoved_y]
     board[toBeMoved_x][toBeMoved_y] = EMPTY_TILE
     newScores = []
-    bestScore = [64,64]
+    bestScore = [128,128]
     bestNewPos = None
+    scr_collection = []
     for i in range(8):
         for j in range(8):
             if board[i][j] == EMPTY_TILE:
                 board[i][j] = toBeMoved
                 score = normalize_scoring(ev.boardNumConflicting(board))
                 newScores.append({'pos':[i,j], 'scr':score})
+                scr_collection.append(score)
                 if score < bestScore:
                     bestScore = score
                     bestNewPos = [i,j]
                 board[i][j] = EMPTY_TILE
     board[toBeMoved_x][toBeMoved_y] = toBeMoved
     bestMoves = [x for x in newScores if x['scr'] == bestScore]
-    return bestMoves
+    return scr_collection, bestMoves
 
 def move_piece(board, origin, dest):
     if origin != dest:
@@ -72,7 +74,7 @@ def solve(board, wandering_steps = 20):
         prevScore = normalize_scoring(ev.boardNumConflicting(board))
         pieceScores = find_piece_scores(board)
         for piece in pieceScores:
-            bestMoves = find_best_move(board, piece['pos'][0], piece['pos'][1])
+            scr_collection, bestMoves = find_best_move(board, piece['pos'][0], piece['pos'][1])
             pieceBestMoves.append([piece, bestMoves])
             move = random.choice(bestMoves)
             if prevScore > move['scr']: 
