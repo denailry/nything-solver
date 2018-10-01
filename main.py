@@ -1,6 +1,6 @@
 import input_helper
 import evaluator as eva
-import hillclimbing as hc
+import hill_climbing as hc
 import simulated_annealing as sa
 import genetic as gen
 
@@ -35,7 +35,7 @@ def get_algorithm():
 # Solve the problem according to selected algorithm
 def solve(selected_algo):
     if selected_algo == ALGO_HILL_CLIMBING:
-        hc.hillclimb(input_helper.board)
+        hc.solve(input_helper.board)
     elif selected_algo == ALGO_SIMULATED_ANNEALING:
         input_helper.board = sa.simulated_annealing(input_helper.board,15000,3.5)
     elif selected_algo == ALGO_GENETIC_ALGORITHM:
