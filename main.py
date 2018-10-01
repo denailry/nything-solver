@@ -37,7 +37,7 @@ def solve(selected_algo):
     if selected_algo == ALGO_HILL_CLIMBING:
         hc.solve(input_helper.board)
     elif selected_algo == ALGO_SIMULATED_ANNEALING:
-        input_helper.board = sa.simulated_annealing(input_helper.board,15000,3.5)
+        input_helper.board = sa.solve(input_helper.board,15000,3.5)
     elif selected_algo == ALGO_GENETIC_ALGORITHM:
         input_helper.board = gen.geneticAlgorithm(input_helper.pieces)
 
