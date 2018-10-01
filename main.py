@@ -37,7 +37,15 @@ def solve(selected_algo):
     if selected_algo == ALGO_HILL_CLIMBING:
         hc.solve(input_helper.board)
     elif selected_algo == ALGO_SIMULATED_ANNEALING:
-        input_helper.board = sa.solve(input_helper.board,15000,3.5)
+        try:
+            max_step = int(input("Set maximum steps (input anything else for 15000) : "))
+        except:
+            max_step = 15000
+        try:
+            temperature = int(input("Set temperature (input anything else for 3.5) : "))
+        except:
+            temperature = 3.5
+        input_helper.board = sa.solve(input_helper.board,max_step,temperature)
     elif selected_algo == ALGO_GENETIC_ALGORITHM:
         input_helper.board = gen.solve(input_helper.pieces, 2000)
 
