@@ -37,7 +37,7 @@ def find_best_move(board, toBeMoved_x, toBeMoved_y):
     toBeMoved = board[toBeMoved_x][toBeMoved_y]
     board[toBeMoved_x][toBeMoved_y] = EMPTY_TILE
     newScores = []
-    bestScore = [128,128]
+    bestScore = [256,256]
     bestNewPos = None
     scr_collection = []
     for i in range(8):
