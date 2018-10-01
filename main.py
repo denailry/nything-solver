@@ -29,7 +29,7 @@ def get_algorithm():
         algorithm = int(input())
         if algorithm not in range(1,4):
             print('What is that? I just know algorithm number 1, 2, and 3.')
-    
+
     return algorithm
 
 # Solve the problem according to selected algorithm
@@ -42,9 +42,9 @@ def solve(selected_algo):
         except:
             max_step = 15000
         try:
-            temperature = int(input("Set temperature (input anything else for 3.5) : "))
+            temperature = int(input("Set temperature (input anything else for 10) : "))
         except:
-            temperature = 3.5
+            temperature = 10
         input_helper.board = sa.solve(input_helper.board,max_step,temperature)
     elif selected_algo == ALGO_GENETIC_ALGORITHM:
         input_helper.board = gen.solve(input_helper.pieces, 2000)

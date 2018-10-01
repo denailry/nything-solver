@@ -10,7 +10,7 @@ possible_moves = [] # Possible moves of each steps
 # Get current temperature. Temperature cools down using logarithmic function
 def get_temperature(step):
     global initial_temperature
-    return initial_temperature / (1 + (0.85 * math.log(1 + step)))
+    return initial_temperature / (1 + (2 * math.log(1 + step)))
 
 def reset_possible_moves():
     global possible_moves
@@ -55,7 +55,7 @@ def is_accept(current_score, new_score, temperature):
     else:
         return False
 
-def solve(init_state, limit_step = 10000, temperature = 3.5):
+def solve(init_state, limit_step = 15000, temperature = 10):
     global initial_temperature
     # Initialize initial values
     initial_temperature = temperature
@@ -64,11 +64,12 @@ def solve(init_state, limit_step = 10000, temperature = 3.5):
     current_solution = [] # Current solution [board,num_of_inter-color_conflicts]
     is_a_solution_found = False
 
-    for step in range(limit_step):
-        temp = get_temperature(step)
-        reset_possible_moves()
-        print("\rCurrently on step #" + str(step + 1) + " with current temp. " + str(temp),end="")
-        try:
+    print("Press Ctrl+C at any time to terminate search")
+    try:
+        for step in range(limit_step):
+            temp = get_temperature(step)
+            reset_possible_moves()
+            print("\rCurrently on step #" + str(step + 1) + " with current temp. " + str(temp),end="")
             has_stepped = False
             while not has_stepped:
                 new_state = get_random_next_state(current_state)
@@ -101,9 +102,9 @@ def solve(init_state, limit_step = 10000, temperature = 3.5):
                     current_state = new_state
                     current_score = new_score
                     has_stepped = True
-        except KeyboardInterrupt:
-            print()
-            print("Ctrl+C received, stopping search...")
+    except KeyboardInterrupt:
+        print()
+        print("Ctrl+C received, stopping search...")
     print()
 
     if current_solution:
